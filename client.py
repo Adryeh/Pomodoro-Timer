@@ -1,5 +1,6 @@
 from config import *
 from tkinter import *
+from tkinter.colorchooser import askcolor
 from utils import humanize_time, send_announcement
 
 
@@ -27,10 +28,17 @@ class PomodoroApp(Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
+    def change_bg_color(self, cont_list):
+        rgb, color_str = askcolor()
+        for f in cont_list:
+            frame = self.frames[f]
+            frame.configure(bg=color_str)
+            frame.configure(background=color_str)
+
 
 class Timer(Frame):
     def __init__(self, parent, timer_type: str, sec: int):
-        Frame.__init__(self, parent)
+        Frame.__init__(self, parent, bg=BG)
         self.btn_start = Button(parent, text='Start', width=10, borderwidth=0, command=self.refresh_label, bg=BTN_BG,
                                 fg='white')
         self.btn_start.pack(pady=5, side=TOP)
@@ -78,6 +86,7 @@ class Timer(Frame):
 class WorkingPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent, bg=BG)
+
         settings_btn = Button(self, text="Settings", borderwidth=0, command=lambda: controller.show_frame(SettingsPage),
                               bg=BTN_BG, fg='white')
         settings_btn.pack(side=BOTTOM, pady=5)
@@ -106,6 +115,11 @@ class SettingsPage(Frame):
         Frame.__init__(self, parent, bg=BG)
         label = Label(self, text="Settings", font=LARGE_FONT, bg=BG)
         label.pack(pady=10, padx=10, side=TOP)
+        # Settings buttons
+        bg_color_btn = Button(self, text='Change bg color',
+                              command=lambda: controller.change_bg_color([SettingsPage, WorkingPage, RelaxPage]))
+        bg_color_btn.pack()
+        # Navigation buttons
         work_btn = Button(self, text="Work Page", borderwidth=0, command=lambda: controller.show_frame(WorkingPage),
                           bg=BTN_BG, fg='white')
         work_btn.pack(side=BOTTOM, pady=5)
