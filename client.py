@@ -4,9 +4,6 @@ from tkinter.colorchooser import askcolor
 from utils import humanize_time, send_announcement, send_audio_notification
 
 
-def d():
-    pass
-
 class PomodoroApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
@@ -42,7 +39,8 @@ class PomodoroApp(Tk):
 class Timer(Frame):
     def __init__(self, parent, timer_type: str, sec: int):
         Frame.__init__(self, parent, bg=BG)
-        self.btn_start = Button(parent, text='Start', width=10, borderwidth=0, command=lambda : [send_audio_notification('beep'), self.refresh_label()], bg=BTN_BG,
+        self.btn_start = Button(parent, text='Start', width=10, borderwidth=0,
+                                command=lambda: [send_audio_notification('beep'), self.refresh_label()], bg=BTN_BG,
                                 fg='white')
         self.btn_start.pack(pady=5, side=TOP)
         self.btn_stop = Button(parent, text='Stop', width=10,  borderwidth=0, command=self.stop, bg=BTN_BG, fg='white')
